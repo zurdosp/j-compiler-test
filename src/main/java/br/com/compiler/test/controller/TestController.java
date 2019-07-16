@@ -3,7 +3,6 @@ package br.com.compiler.test.controller;
 import java.io.PrintStream;
 import java.lang.reflect.Method;
 
-import org.junit.Assert;
 import org.mdkt.compiler.InMemoryJavaCompiler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,8 +37,6 @@ public class TestController {
 
 			Class<?> testClass = InMemoryJavaCompiler.newInstance().compile("br.com.compiler.test.controller.MainTest1", sourceCode);
 
-			Assert.assertNotNull(testClass);
-			Assert.assertEquals(1, testClass.getDeclaredMethods().length);
 			Method sumInstanceMethod = testClass.getMethod("main", String[].class);
 			Object[] obj = new Object[1];
 			sumInstanceMethod.invoke(testClass, obj);
