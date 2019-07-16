@@ -13,7 +13,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.junit.Assert;
 import org.mdkt.compiler.InMemoryJavaCompiler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,8 +46,6 @@ public class CompilerController {
 		System.setOut(ps);
 		try {
 			Class<?> testClass = InMemoryJavaCompiler.newInstance().compile("br.com.compiler.test.controller.MainTest1", paramTestCode.getSourceMainToTest());
-			Assert.assertNotNull(testClass);
-			Assert.assertEquals(1, testClass.getDeclaredMethods().length);
 			Method sumInstanceMethod = testClass.getMethod("main", String[].class);
 			String[] mainParams = new String[2];
 			mainParams[0] = paramTestCode.getParams().get(0);
@@ -94,8 +91,6 @@ public class CompilerController {
 		System.setOut(ps);
 		try {
 			Class<?> testClass = InMemoryJavaCompiler.newInstance().compile("br.com.compiler.test.controller.MainTest1", sourceCode);
-			Assert.assertNotNull(testClass);
-			Assert.assertEquals(1, testClass.getDeclaredMethods().length);
 			Method sumInstanceMethod = testClass.getMethod("main", String[].class);
 			Object[] obj = new Object[1];
 			sumInstanceMethod.invoke(testClass, obj);
