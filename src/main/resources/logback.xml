@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<property name="DEV_HOME" value="/christian/pessoal/projetos/dinamic-dev-test" />
+	<property name="DEV_HOME" value="" />
 	<appender name="rollingCoreLog"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
 		<file>${DEV_HOME}/j-compiler-test/logs/j-compiler-test.log
