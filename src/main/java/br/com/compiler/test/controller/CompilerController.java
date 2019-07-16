@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.compiler.test.model.ResponseTestCode;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -33,9 +35,11 @@ public class CompilerController {
 	 * 
 	 * @throws Exception
 	 */
+	@ApiImplicitParams({ @ApiImplicitParam(name = "value", value = "package br.com.compiler.test.controller;public class MainTest {public static void main(String[] args) {}}")
+	})
 	@PostMapping("/execute")
 	@ResponseBody
-	public ResponseTestCode compilerTest2(@RequestBody String sourceCode) throws Exception {
+	public ResponseTestCode compilerTest(@RequestBody String sourceCode) throws Exception {
 		logger.error("Trying to compile code: " + sourceCode);
 		File outputFileName = new File("outCompile.txt");
 		FileOutputStream fos = new FileOutputStream(outputFileName);
@@ -44,8 +48,8 @@ public class CompilerController {
 		try {
 			Class<?> testClass = InMemoryJavaCompiler.newInstance().compile("br.com.compiler.test.controller.MainTest", sourceCode);
 			Method sumInstanceMethod = testClass.getMethod("main", String[].class);
-			Object[] obj = new Object[1];
-			sumInstanceMethod.invoke(testClass, obj);
+			String[] strings = new String[1];
+			sumInstanceMethod.invoke(testClass, (Object) strings);
 		} catch (Exception e) {
 			logger.error("Error trying to compile code ", e);
 			ResponseTestCode responseTestCode = new ResponseTestCode();
@@ -57,12 +61,6 @@ public class CompilerController {
 		responseTestCode.setCode(1);
 		logger.error("Compile code successfully");
 		return responseTestCode;
-	}
-
-	@PostMapping("/compile")
-	@ResponseBody
-	public String applyCompilation(@RequestBody String sourceCode) throws Exception {
-		return "success";
 	}
 
 }
