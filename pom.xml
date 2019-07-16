@@ -24,7 +24,6 @@
 		<java.version>1.8</java.version>
 		<EUREKA-SPRING-CLOUD>2.0.2.RELEASE</EUREKA-SPRING-CLOUD>	
 		<maven-compiler-plugin.version>3.7.0</maven-compiler-plugin.version>
-		<spring.version>5.0.6.RELEASE</spring.version>	
 	</properties>
 
 	<repositories>
