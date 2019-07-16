@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.compiler.test.model.ParamTestCode;
 import br.com.compiler.test.model.ResponseTestCode;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 
 @RestController
 @CrossOrigin(origins = "*")
@@ -35,6 +37,8 @@ public class TestController {
 
 	private static final Logger logger = LoggerFactory.getLogger(TestController.class);
 
+	@ApiImplicitParams({ @ApiImplicitParam(name = "sourceMainToTest", value = "package br.com.compiler.test.controller;public class MainTest {public static void main(String[] args) {System.out.println(Integer.valueOf(args[0]) + Integer.valueOf(args[1])); System.out.println(args[0]);}}"), @ApiImplicitParam(name = "params", value = "\"1\", \"2\"")
+	})
 	@PostMapping("/execute")
 	@ResponseBody
 	public ResponseTestCode executeTest(@RequestBody ParamTestCode paramTestCode) throws Exception {
