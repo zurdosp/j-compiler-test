@@ -42,7 +42,7 @@ public class CompilerController {
 		PrintStream ps = new PrintStream(fos);
 		System.setOut(ps);
 		try {
-			Class<?> testClass = InMemoryJavaCompiler.newInstance().compile("br.com.compiler.test.controller.MainTest1", sourceCode);
+			Class<?> testClass = InMemoryJavaCompiler.newInstance().compile("br.com.compiler.test.controller.MainTest", sourceCode);
 			Method sumInstanceMethod = testClass.getMethod("main", String[].class);
 			Object[] obj = new Object[1];
 			sumInstanceMethod.invoke(testClass, obj);
