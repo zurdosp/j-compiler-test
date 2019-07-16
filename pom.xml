@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>br.com</groupId>
+	<artifactId>j-compiler-test</artifactId>
+	<version>1.0.0</version>
+
+	<name>Java Compiler Test</name>
+	<description>Projeto Compilador de Testes</description>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<spring-cloud.version>Greenwich.SR2</spring-cloud.version>
+		<EUREKA-SPRING-CLOUD>2.0.2.RELEASE</EUREKA-SPRING-CLOUD>		
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>spring-releases</id>
+			<url>https://repo.spring.io/libs-release</url>
+		</repository>
+	</repositories>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+			<version>${EUREKA-SPRING-CLOUD}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+			<version>${EUREKA-SPRING-CLOUD}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+			<version>${EUREKA-SPRING-CLOUD}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jersey</artifactId>
+			<version>${EUREKA-SPRING-CLOUD}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+			<version>${EUREKA-SPRING-CLOUD}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<version>${EUREKA-SPRING-CLOUD}</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<version>${EUREKA-SPRING-CLOUD}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger2</artifactId>
+			<version>2.8.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.springfox</groupId>
+			<artifactId>springfox-swagger-ui</artifactId>
+			<version>2.8.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.thoughtworks.xstream</groupId>
+			<artifactId>xstream</artifactId>
+			<version>1.4.11.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>2.0.1.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-openfeign</artifactId>
+			<version>2.0.1.RELEASE</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.mdkt.compiler</groupId>
+		    <artifactId>InMemoryJavaCompiler</artifactId>
+		    <version>1.3.0</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.3</version>
+				<configuration>
+					<tagNameFormat>v@{project.version}</tagNameFormat>
+					<checkModificationExcludes>
+						<checkModificationExclude>pom.xml</checkModificationExclude>
+						<checkModificationExclude>.gitlab-ci.yml</checkModificationExclude>
+					</checkModificationExcludes>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-scm-plugin</artifactId>
+						<version>1.8.1</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<!-- <version>3.1</version> -->
+				<configuration>
+					<compilerArgument>-parameters</compilerArgument>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+
+	<profiles>
+		<profile>
+			<id>build</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.springframework.boot</groupId>
+						<artifactId>spring-boot-maven-plugin</artifactId>
+						<dependencies>
+							<dependency>
+								<groupId>org.springframework.boot.experimental</groupId>
+								<artifactId>spring-boot-thin-layout</artifactId>
+								<version>1.0.7.RELEASE</version>
+							</dependency>
+						</dependencies>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>

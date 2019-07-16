@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property name="DEV_HOME" value="/christian/pessoal/projetos/dinamic-dev-test" />
+	<appender name="rollingCoreLog"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${DEV_HOME}/j-compiler-test/logs/j-compiler-test.log
+		</file>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${DEV_HOME}/j-compiler-test/j-compiler-test.%d{yyyy-MM-dd}_%i.log
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+			<totalSizeCap>500MB</totalSizeCap>
+			<maxFileSize>30MB</maxFileSize>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%date - [%level] - %class in %thread - %message%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="STDOUT"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%date - [%level] - %class in %thread - %message%n
+			</pattern>
+		</layout>
+	</appender>
+
+	<root level="info">
+		<appender-ref ref="rollingCoreLog" />
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>
