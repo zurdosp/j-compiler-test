@@ -42,24 +42,30 @@ public class CompilerController {
 	public ResponseTestCode compilerTest(@RequestBody String sourceCode) throws Exception {
 		logger.error("Trying to compile code: " + sourceCode);
 		File outputFileName = new File("outCompile.txt");
+		ResponseTestCode responseTestCode = new ResponseTestCode();
 		FileOutputStream fos = new FileOutputStream(outputFileName);
 		PrintStream ps = new PrintStream(fos);
 		System.setOut(ps);
 		try {
-			Class<?> testClass = InMemoryJavaCompiler.newInstance().compile("br.com.compiler.test.controller.MainTest", sourceCode);
+			Class<?> testClass = InMemoryJavaCompiler.newInstance().compile("br.com.compiler.test.controller.MainTest1", sourceCode);
 			Method sumInstanceMethod = testClass.getMethod("main", String[].class);
-			String[] strings = new String[1];
-			sumInstanceMethod.invoke(testClass, (Object) strings);
+			if (testClass == null || sumInstanceMethod == null) {
+				responseTestCode.setMessage("NOK");
+				responseTestCode.setCode(0);
+				logger.error("Compile code unsuccessfully");
+			}
 		} catch (Exception e) {
 			logger.error("Error trying to compile code ", e);
-			ResponseTestCode responseTestCode = new ResponseTestCode();
-			responseTestCode.setMessage(e.getMessage().toString().split(",")[2].toString());
+			if (e.getMessage().toString().split(",").length >= 5) {
+				responseTestCode.setMessage(e.getMessage().toString());
+				return responseTestCode;
+			}
+			responseTestCode.setMessage(e.getMessage().toString().split(",")[2].toString() + e.getMessage().toString().split(",")[1].toString());
 			return responseTestCode;
 		}
-		ResponseTestCode responseTestCode = new ResponseTestCode();
 		responseTestCode.setMessage("OK");
 		responseTestCode.setCode(1);
-		logger.error("Compile code successfully");
+		logger.debug("Compile code successfully");
 		return responseTestCode;
 	}
 
