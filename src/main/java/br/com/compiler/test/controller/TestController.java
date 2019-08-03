@@ -51,8 +51,8 @@ public class TestController {
 			Class<?> testClass = InMemoryJavaCompiler.newInstance().compile("br.com.compiler.test.controller.MainTest", paramTestCode.getSourceMainToTest());
 			Method sumInstanceMethod = testClass.getMethod("main", String[].class);
 			String[] mainParams = new String[2];
-			mainParams[0] = paramTestCode.getParams().get(0);
-			mainParams[1] = paramTestCode.getParams().get(1);
+			mainParams[0] = paramTestCode.getParams().get(0).split(",")[0];
+			mainParams[1] = paramTestCode.getParams().get(0).split(",")[1];
 			sumInstanceMethod.invoke(testClass, (Object) mainParams);
 		} catch (Exception e) {
 			Console con = System.console();
