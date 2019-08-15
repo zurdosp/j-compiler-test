@@ -41,13 +41,14 @@ public class CompilerController {
 	@ResponseBody
 	public ResponseTestCode compilerTest(@RequestBody String sourceCode) throws Exception {
 		logger.error("Trying to compile code: " + sourceCode);
+		String className = sourceCode.substring(sourceCode.indexOf("public class") + 13, sourceCode.indexOf("{")).trim();
 		File outputFileName = new File("outCompile.txt");
 		ResponseTestCode responseTestCode = new ResponseTestCode();
 		FileOutputStream fos = new FileOutputStream(outputFileName);
 		PrintStream ps = new PrintStream(fos);
 		System.setOut(ps);
 		try {
-			Class<?> testClass = InMemoryJavaCompiler.newInstance().compile("br.com.compiler.test.controller.MainTest", sourceCode);
+			Class<?> testClass = InMemoryJavaCompiler.newInstance().compile("br.com.compiler.test.controller." + className, sourceCode);
 			Method sumInstanceMethod = testClass.getMethod("main", String[].class);
 			if (testClass == null || sumInstanceMethod == null) {
 				responseTestCode.setMessage("NOK");
@@ -56,11 +57,14 @@ public class CompilerController {
 			}
 		} catch (Exception e) {
 			logger.error("Error trying to compile code ", e);
+			responseTestCode.setCode(0);
 			if (e.getMessage().toString().split(",").length >= 5) {
 				responseTestCode.setMessage(e.getMessage().toString());
 				return responseTestCode;
+			} else {
+				responseTestCode.setMessage(e.getMessage().toString().split(",")[e.getMessage().toString().split(",").length - 1].toString());
 			}
-			responseTestCode.setMessage(e.getMessage().toString().split(",")[2].toString() + e.getMessage().toString().split(",")[1].toString());
+			logger.error("Compile code unsuccessfully");
 			return responseTestCode;
 		}
 		responseTestCode.setMessage("OK");
