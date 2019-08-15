@@ -47,7 +47,7 @@ public class CompilerController {
 		PrintStream ps = new PrintStream(fos);
 		System.setOut(ps);
 		try {
-			Class<?> testClass = InMemoryJavaCompiler.newInstance().compile("br.com.compiler.test.controller.MainTest1", sourceCode);
+			Class<?> testClass = InMemoryJavaCompiler.newInstance().compile("br.com.compiler.test.controller.MainTest", sourceCode);
 			Method sumInstanceMethod = testClass.getMethod("main", String[].class);
 			if (testClass == null || sumInstanceMethod == null) {
 				responseTestCode.setMessage("NOK");
